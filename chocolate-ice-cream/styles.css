@@ -1,0 +1,312 @@
+/**
+ * Declare all native system fonts in one go.
+ */
+
+@font-face {
+  font-family: system;
+  font-style: normal;
+  font-weight: 300;
+  /* prettier-ignore */
+  src:  local('.SFNSText-Light'),
+        local('.HelveticaNeueDeskInterface-Light'),
+        local('.LucidaGrandeUI'),
+        local('Ubuntu Light'),
+        local('Segoe UI Light'),
+        local('Roboto-Light'),
+        local('DroidSans'),
+        local('Tahoma');
+}
+
+/**
+ * Tokens.
+ */
+
+:root {
+  --color-bg: rgb(214, 46, 141);
+  --color-bg-inner: white;
+  --color-text: #151414;
+  --font-size-small: 0.9em;
+  --font-size-large: 2em;
+  --img-blur: 0;
+  --img-invert: 0;
+  --img-sepia: 0;
+  --spacing-base: 1em;
+  --spacing-small: calc(var(--spacing-base) / 2);
+  --spacing-medium: calc(var(--spacing-base) * 2);
+  --spacing-large: calc(var(--spacing-base) * 3);
+  --filters-outline-style: solid;
+  --filters-outline-width: 0.3em;
+}
+
+/**
+ * Resets.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+*:not(input) {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Base elements.
+ */
+
+html {
+  background-color: var(--color-bg);
+  box-sizing: border-box;
+  color: var(--color-text);
+  font-family: system;
+  font-variant-ligatures: common-ligatures;
+  line-height: 1.7;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+@supports not (font-variant-ligatures: common-ligatures) {
+  html {
+    font-feature-settings: 'liga', 'liga', 'clig';
+  }
+}
+
+body {
+  background-color: var(--color-bg-inner);
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90vw;
+  min-height: 100vh;
+}
+
+@supports (display: grid) {
+  @media (min-width: 42em) {
+    body {
+      align-items: center;
+      display: grid;
+      grid-template-columns: var(--spacing-medium) minmax(19em, 1fr) var(--spacing-medium) auto;
+      height: 100vh;
+      justify-items: center;
+      max-width: 86vw;
+      min-height: auto;
+      overflow-y: hidden;
+    }
+  }
+
+  @media (min-width: 60em) {
+    body {
+      max-width: 76vw;
+    }
+  }
+}
+
+h1 {
+  font-size: var(--font-size-large);
+  line-height: 1.3;
+  margin-bottom: var(--spacing-small);
+}
+
+a {
+  color: var(--color-bg);
+  outline: 0;
+  text-decoration-skip: ink;
+  transition: all 0.15s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+}
+
+a:focus,
+a:hover {
+  background-color: var(--color-bg);
+  color: white;
+  text-decoration: none;
+}
+
+[hidden] {
+  display: none;
+}
+
+/**
+ * Heading, byline, and Filter widget.
+ */
+
+body > div:first-child {
+  padding: var(--spacing-base);
+}
+
+@supports (display: grid) {
+  @media (min-width: 42em) {
+    body > div:first-child {
+      grid-column: 2;
+      max-width: 23em;
+      padding: 0;
+    }
+  }
+}
+
+/**
+ * Filter widget.
+ */
+
+.filters {
+  margin-top: var(--spacing-base);
+}
+
+@media (max-width: 41.9375em) {
+  .filters.is-open {
+    bottom: 0;
+    left: 5vw;
+    margin-top: 0;
+    position: fixed;
+    right: 5vw;
+    z-index: 1;
+  }
+}
+
+@media (min-width: 42em) {
+  .filters {
+    margin-top: var(--spacing-medium);
+  }
+}
+
+.filters > button {
+  background: #eee;
+  border: 0.15em solid gainsboro;
+  border-radius: 0.2em;
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  outline: 0;
+  padding: 0.4em 0.7em;
+  transition: all 0.2s cubic-bezier(1, 0, 0, 1);
+}
+
+.filters > button:hover,
+.filters > button:focus,
+.filters.is-open > button {
+  color: white;
+}
+
+.filters:not(.is-open) > button:hover,
+.filters:not(.is-open) > button:focus {
+  background: var(--color-bg);
+  border-color: var(--color-bg);
+}
+
+.filters.is-open > button {
+  background: var(--color-text);
+  border-color: var(--color-text);
+  border-style: dashed;
+  border-width: var(--filters-outline-width);
+  border-radius: 0;
+}
+
+.filters.is-open > button:hover,
+.filters.is-open > button:focus {
+  border-color: white;
+}
+
+@media (min-width: 42em) {
+  .filters > button {
+    display: none;
+  }
+}
+
+.filters > button span {
+  margin-left: 0.2em;
+}
+
+.filters fieldset {
+  background-color: rgb(250, 249, 249);
+  border-style: var(--filters-outline-style);
+  border-width: var(--filters-outline-width);
+  padding: var(--spacing-base);
+}
+
+@media (max-width: 41.9375em) {
+  .filters fieldset {
+    opacity: 0.95;
+    border-color: var(--color-text);
+  }
+}
+
+@media (min-width: 42em) {
+  .filters fieldset[hidden] {
+    display: block;
+  }
+
+  .filters fieldset {
+    border-color: rgba(223, 222, 222, 0.5);
+  }
+}
+
+.filters fieldset > div {
+  align-items: center;
+  display: flex;
+}
+
+.filters fieldset > div:not(:last-child) {
+  margin-bottom: var(--spacing-base);
+}
+
+.filters fieldset label {
+  cursor: pointer;
+  flex: 1;
+  font-size: var(--font-size-small);
+  margin-right: var(--spacing-base);
+}
+
+.filters fieldset input {
+  flex: 2;
+}
+
+/**
+ * Matilda image.
+ */
+
+@supports (display: grid) {
+  @media (min-width: 42em) {
+    picture {
+      grid-column: 4;
+    }
+  }
+}
+
+img {
+  display: block;
+  filter: blur(var(--img-blur)) invert(var(--img-invert)) sepia(var(--img-sepia));
+  height: auto;
+  max-width: 100%;
+  transition: filter 0.5s linear;
+}
+
+@supports (display: grid) {
+  @media (min-width: 42em) {
+    img {
+      max-height: 100vh;
+    }
+  }
+}
+
+/* Hide elements visually */
+
+legend {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* Hide/show elements based on JavaScript support */
+
+.no-js article {
+  display: none;
+}
+
+.js article {
+  display: block;
+}
