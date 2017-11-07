@@ -21,15 +21,11 @@ function filteriseImage() {
   const stateHook = 'is-open';
   const DOM = {
     filters: document.querySelectorAll(`${selectorRoot}-target-filter`),
-    nonTargetElements: document.querySelectorAll(
-      `body > div:first-child > *:not(${selectorRoot}),
-      picture`
-    ),
-    root: document.querySelector(selectorRoot),
+    elementsToHide: document.querySelectorAll(`body > div > *:not(${selectorRoot}-target), picture`),
     target: document.querySelector(`${selectorRoot}-target`),
+    targetClose: document.querySelector(`${selectorRoot}-target-close`),
     targetHeading: document.querySelector(`${selectorRoot}-target-heading`),
     trigger: document.querySelector(`${selectorRoot}-trigger`),
-    triggerText: document.querySelector(`${selectorRoot}-trigger span`),
   };
 
   function applyFilters() {
@@ -43,18 +39,21 @@ function filteriseImage() {
 
   function openFiltersMobile() {
     DOM.target.removeAttribute('hidden');
-    DOM.root.classList.add(stateHook);
-    replaceTextNode(DOM.triggerText, 'Close');
+    DOM.target.classList.add(stateHook);
+    DOM.trigger.setAttribute('disabled', '');
     applyARIA();
     bindDocumentEvents();
+    bindCloseTargetEvents();
   }
 
   function closeFiltersMobile() {
     DOM.target.setAttribute('hidden', '');
-    DOM.root.classList.remove(stateHook);
-    replaceTextNode(DOM.triggerText, 'Open');
+    DOM.target.classList.remove(stateHook);
+    DOM.trigger.removeAttribute('disabled');
     DOM.trigger.focus();
+    removeARIA();
     unbindDocumentEvents();
+    unbindCloseTargetEvents();
   }
 
   function onEscKey(e) {
@@ -65,8 +64,17 @@ function filteriseImage() {
     DOM.target.setAttribute('role', 'dialog');
     DOM.target.setAttribute('aria-modal', true);
     DOM.target.setAttribute('aria-labelledby', DOM.targetHeading.id);
-    DOM.nonTargetElements.forEach(function(item) {
+    DOM.elementsToHide.forEach(function(item) {
       item.setAttribute('aria-hidden', true);
+    });
+  }
+
+  function removeARIA() {
+    DOM.target.removeAttribute('role', 'dialog');
+    DOM.target.removeAttribute('aria-modal', true);
+    DOM.target.removeAttribute('aria-labelledby', DOM.targetHeading.id);
+    DOM.elementsToHide.forEach(function(item) {
+      item.removeAttribute('aria-hidden', true);
     });
   }
 
@@ -78,6 +86,14 @@ function filteriseImage() {
 
   function bindTriggerEvents() {
     DOM.trigger.addEventListener('click', toggleFiltersMobile);
+  }
+
+  function bindCloseTargetEvents() {
+    DOM.targetClose.addEventListener('click', toggleFiltersMobile);
+  }
+
+  function unbindCloseTargetEvents() {
+    DOM.targetClose.removeEventListener('click', toggleFiltersMobile);
   }
 
   function bindDocumentEvents() {
@@ -93,7 +109,7 @@ function filteriseImage() {
     bindFilterEvents();
   }
 
-  return isNodeInDOM(DOM.root) ? init() : false;
+  return isNodeInDOM(DOM.target) ? init() : null;
 }
 
 filteriseImage();

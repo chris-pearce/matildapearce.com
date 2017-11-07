@@ -16,31 +16,28 @@
         <a href="https://www.google.com.au/maps/place/The+Surin+Phuket/@7.981048,98.277681,15z/data=!4m2!3m1!1s0x0:0x4fca1f8fd01767e6?sa=X&ved=0ahUKEwii_6qp9aDXAhUGOJQKHTPpDGIQ_BIIdDAK"
           rel="external">Thailand</a>,
         <time datetime="07-17">July 2017</time> 🏝 🌊.</p>
-      <div class="filters js-filterise-image no-js">
-        <button class="js-filterise-image-trigger" type="button">🎨
-          <span>Open</span> filters
-        </button>
-        <div hidden class="js-filterise-image-target">
-          <fieldset>
-            <legend id="filterise-image-heading" class="js-filterise-image-target-heading">Apply filters to Matilda or change the background colour of the document</legend>
-            <div>
-              <label for="img-blur">Blur filter:</label>
-              <input class="js-filterise-image-target-filter" id="img-blur" type="range" max="20" value="0" data-unit="px">
-            </div>
-            <div>
-              <label for="img-invert">Invert filter:</label>
-              <input class="js-filterise-image-target-filter" id="img-invert" type="range" max="100" step="1" value="0" data-unit="%">
-            </div>
-            <div>
-              <label for="img-sepia">Sepia filter:</label>
-              <input class="js-filterise-image-target-filter" id="img-sepia" type="range" max="100" step="1" value="0" data-unit="%">
-            </div>
-            <div>
-              <label for="color-bg">BG colour:</label>
-              <input class="js-filterise-image-target-filter" id="color-bg" type="color" value="#d62e8d">
-            </div>
-          </fieldset>
-        </div>
+      <button class="js-filterise-image-trigger" type="button">🎨 Open filters</button>
+      <div hidden class="filters js-filterise-image-target no-js">
+        <button class="js-filterise-image-target-close" type="button" aria-label="Close the filters or press the escape key"></button>
+        <fieldset>
+          <legend id="filterise-image-heading" class="js-filterise-image-target-heading">Apply filters to Matilda or change the background colour of the document</legend>
+          <div>
+            <label for="img-blur">Blur filter:</label>
+            <input class="js-filterise-image-target-filter" id="img-blur" type="range" max="20" value="0" data-unit="px">
+          </div>
+          <div>
+            <label for="img-invert">Invert filter:</label>
+            <input class="js-filterise-image-target-filter" id="img-invert" type="range" max="100" step="1" value="0" data-unit="%">
+          </div>
+          <div>
+            <label for="img-sepia">Sepia filter:</label>
+            <input class="js-filterise-image-target-filter" id="img-sepia" type="range" max="100" step="1" value="0" data-unit="%">
+          </div>
+          <div>
+            <label for="color-bg">BG colour:</label>
+            <input class="js-filterise-image-target-filter" id="color-bg" type="color" value="#d62e8d">
+          </div>
+        </fieldset>
       </div>
     </div>
 
