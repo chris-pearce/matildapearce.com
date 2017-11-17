@@ -231,12 +231,16 @@ body > div > button:focus:not([disabled]) {
   z-index: 1;
 }
 
+.filters > button:focus {
+  box-shadow: inset 0 0 0 5px red;
+}
+
 .filters > button::before {
   content: '×';
   color: white;
   display: block;
   font-size: 2em;
-  margin-top: -0.0625em;
+  margin-top: -0.2em;
 }
 
 @media (min-width: 42em) {
@@ -302,7 +306,7 @@ img {
   filter: blur(var(--img-blur)) invert(var(--img-invert)) sepia(var(--img-sepia));
   height: auto;
   max-width: 100%;
-  transition: filter 0.5s linear;
+  /* transition: filter 0.5s linear; */
 }
 
 @supports (display: grid) {
@@ -325,12 +329,9 @@ legend {
   width: 1px;
 }
 
-/* Hide/show elements based on JavaScript support */
+/* Hide elements dependent on JavaScript */
 
-.no-js article {
-  display: none;
-}
-
-.js article {
-  display: block;
+.no-js .filters,
+.no-js body > div > button {
+  display: none !important;
 }
