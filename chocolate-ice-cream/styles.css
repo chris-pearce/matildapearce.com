@@ -199,7 +199,7 @@ body > div > button:focus:not([disabled]) {
   }
 
   .filters::before {
-    background-color: rgba(255, 255, 255, 0.2);
+    /* background-color: rgba(255, 255, 255, 0.2); */
     bottom: 0;
     content: '';
     left: var(--filters-offset);
@@ -231,9 +231,10 @@ body > div > button:focus:not([disabled]) {
   z-index: 1;
 }
 
-.filters > button:focus {
-  box-shadow: inset 0 0 0 5px red;
-}
+/* .filters > button:focus {
+  box-shadow: inset 0 0 0 5px rgb(250, 249, 249);
+  outline: 0;
+} */
 
 .filters > button::before {
   content: '×';
@@ -306,7 +307,6 @@ img {
   filter: blur(var(--img-blur)) invert(var(--img-invert)) sepia(var(--img-sepia));
   height: auto;
   max-width: 100%;
-  /* transition: filter 0.5s linear; */
 }
 
 @supports (display: grid) {
@@ -315,6 +315,13 @@ img {
       max-height: 100vh;
     }
   }
+}
+
+/**
+ * JavaScript support message.
+ */
+
+body > small {
 }
 
 /* Hide elements visually */

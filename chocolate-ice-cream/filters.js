@@ -15,6 +15,9 @@ function filters() {
    * All fuctions appended with "Mobile" only apply to small viewports.
    */
 
+  const activeElement = document.activeElement;
+  console.log(activeElement);
+
   const selectorRoot = '.js-filters';
   const stateHook = 'is-open';
   const DOM = {
@@ -48,7 +51,7 @@ function filters() {
     DOM.filters.removeAttribute('hidden');
     DOM.filters.classList.add(stateHook);
     DOM.mobileTrigger.setAttribute('disabled', '');
-    DOM.filters.focus();
+    DOM.filtersClose.focus();
     applyAriaMobile();
     bindDocumentEventsMobile();
     bindCloseTargetEventsMobile();
@@ -105,11 +108,14 @@ function filters() {
     const activeElement = document.activeElement;
 
     if (activeElement === lastElement) {
-      //firstElement.focus();
+      firstElement.focus();
       console.log('Last item is focused!');
     }
 
-    console.log(activeElement, e);
+    console.log('Active element: ', activeElement);
+    console.log('First element: ', firstElement);
+    console.log('Last element: ', lastElement);
+    console.log('Elements: ', elements);
   }
 
   function bindFilterEvents() {
