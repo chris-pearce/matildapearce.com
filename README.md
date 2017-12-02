@@ -1,5 +1,3 @@
-# Fun stuff for my daughter Matilda Pearce
+# Website for Matilda Pearce
 
-Main website is in the works, other stuff:
-
-* [Matilda eating 🍫🍦](chocolate-ice-cream/README.md).
+Main website is in the works.
