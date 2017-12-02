@@ -24,6 +24,8 @@
 :root {
   --color-bg: rgb(214, 46, 141);
   --color-bg-inner: white;
+  --color-light-grey: rgb(250, 249, 249);
+  --color-off-white: rgba(223, 222, 222, 0.5);
   --color-text: #151414;
   --font-size-small: 0.9em;
   --font-size-large: 2em;
@@ -162,7 +164,22 @@ body > div {
 }
 
 /**
- * Filter widget.
+ * Dull out non-filter elements when filters are open.
+ */
+
+@media (max-width: 41.9375em) {
+  .is-open > div > *:not(div) {
+    filter: grayscale(100%);
+    opacity: 0.4;
+  }
+}
+
+/**
+ * Filters widget.
+ */
+
+/**
+ * Mobile trigger.
  */
 
 body > div > button {
@@ -189,6 +206,14 @@ body > div > button:focus:not([disabled]) {
   }
 }
 
+/**
+ * The Filters container which is a Modal Dialog at mobile.
+ */
+
+.filters {
+  outline: 0;
+}
+
 @media (max-width: 41.9375em) {
   .filters {
     bottom: 0;
@@ -198,8 +223,11 @@ body > div > button:focus:not([disabled]) {
     z-index: 1;
   }
 
+  /**
+   * The Modal Dialog backdrop
+   */
+
   .filters::before {
-    /* background-color: rgba(255, 255, 255, 0.2); */
     bottom: 0;
     content: '';
     left: var(--filters-offset);
@@ -218,6 +246,10 @@ body > div > button:focus:not([disabled]) {
   }
 }
 
+/**
+ * Filters close button.
+ */
+
 .filters > button {
   background: var(--color-text);
   background-clip: content-box;
@@ -230,11 +262,6 @@ body > div > button:focus:not([disabled]) {
   width: var(--filter-close-button-size);
   z-index: 1;
 }
-
-/* .filters > button:focus {
-  box-shadow: inset 0 0 0 5px rgb(250, 249, 249);
-  outline: 0;
-} */
 
 .filters > button::before {
   content: '×';
@@ -250,8 +277,12 @@ body > div > button:focus:not([disabled]) {
   }
 }
 
+/**
+ * All of the filter elements + their container.
+ */
+
 .filters fieldset {
-  background-color: rgb(250, 249, 249);
+  background-color: var(--color-light-grey);
   border-style: var(--filters-outline-style);
   border-width: var(--filters-outline-width);
   padding: var(--spacing-base);
@@ -266,7 +297,7 @@ body > div > button:focus:not([disabled]) {
 
 @media (min-width: 42em) {
   .filters fieldset {
-    border-color: rgba(223, 222, 222, 0.5);
+    border-color: var(--color-off-white);
   }
 }
 
@@ -321,10 +352,19 @@ img {
  * JavaScript support message.
  */
 
-body > small {
+body > div > small {
+  background-color: var(--color-light-grey);
+  border: var(--filters-outline-width) var(--filters-outline-style) var(--color-off-white);
+  display: block;
+  font-size: 1.1em;
+  margin-top: var(--spacing-base);
+  padding: var(--spacing-large);
+  text-align: center;
 }
 
-/* Hide elements visually */
+/**
+ * Hide elements visually.
+ */
 
 legend {
   clip: rect(1px, 1px, 1px, 1px);
@@ -336,9 +376,15 @@ legend {
   width: 1px;
 }
 
-/* Hide elements dependent on JavaScript */
+/**
+ * Hide elements based on JavaScript support.
+ */
 
 .no-js .filters,
 .no-js body > div > button {
+  display: none !important;
+}
+
+.js body > div > small {
   display: none !important;
 }

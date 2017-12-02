@@ -1,23 +1,17 @@
 /**
+ * NOTE:
+ * -> All fuctions appended with "Mobile" only apply to small viewports.
+ *
  * TODO:
- * -> Trap focus in modal.
- * -> Detect large layout media query and make relevant changes.
- * -> Do not dull out the image when mobile filters modal is open.
- * -> Util func for applying attributes.
+ * -> Use the `matchMedia()` method alongside the `resize` event to determine
+ *    when the viewport is wider than "Mobile" so that all of the ARIA that is
+ *    only applicable at "Mobile" can be removed. Ideally read the breakpoint
+ *    from the CSS.
+ * -> Add a filters reset button.
  */
 
-function isNodeInDOM(node) {
-  return node && node === document.body ? false : document.body.contains(node);
-}
-
-function filters() {
-  /**
-   * All fuctions appended with "Mobile" only apply to small viewports.
-   */
-
-  const activeElement = document.activeElement;
-  console.log(activeElement);
-
+(function filters() {
+  let focusableElements;
   const selectorRoot = '.js-filters';
   const stateHook = 'is-open';
   const DOM = {
@@ -36,6 +30,7 @@ function filters() {
     ],
     filtersHeading: document.querySelector(`${selectorRoot}-heading`),
     mobileTrigger: document.querySelector(`${selectorRoot}-mobile-trigger`),
+    root: document.body,
   };
 
   function applyFilters() {
@@ -48,20 +43,32 @@ function filters() {
   }
 
   function openFiltersMobile() {
-    DOM.filters.removeAttribute('hidden');
+    focusableElements = DOM.filters.querySelectorAll(DOM.filtersFocusableElements);
+
+    DOM.root.classList.add(stateHook);
     DOM.filters.classList.add(stateHook);
+    DOM.filters.removeAttribute('hidden');
     DOM.mobileTrigger.setAttribute('disabled', '');
-    DOM.filtersClose.focus();
+
+    // Set focus to first focusable element, fallback to the container
+    if (focusableElements) {
+      focusableElements[0].focus();
+    } else {
+      DOM.filters.focus();
+    }
+
     applyAriaMobile();
     bindDocumentEventsMobile();
     bindCloseTargetEventsMobile();
   }
 
   function closeFiltersMobile() {
-    DOM.filters.setAttribute('hidden', '');
+    DOM.root.classList.remove(stateHook);
     DOM.filters.classList.remove(stateHook);
+    DOM.filters.setAttribute('hidden', '');
     DOM.mobileTrigger.removeAttribute('disabled');
     DOM.mobileTrigger.focus();
+
     removeAria();
     unbindDocumentEventsMobile();
     unbindCloseTargetEventsMobile();
@@ -99,36 +106,28 @@ function filters() {
   }
 
   function trapFocusMobile(e) {
-    const elements = DOM.filters.querySelectorAll(DOM.filtersFocusableElements);
-
-    if (!elements) return null;
-
-    const firstElement = elements[0];
-    const lastElement = elements[elements.length - 1];
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
     const activeElement = document.activeElement;
 
-    if (activeElement === lastElement) {
+    // On "Shift + Tab" if current focused element is first then go to last
+    if (e.shiftKey && activeElement === firstElement) {
+      lastElement.focus();
+      e.preventDefault();
+      // On "Tab" if current focused element is last then go to first
+    } else if (!e.shiftKey && activeElement === lastElement) {
       firstElement.focus();
-      console.log('Last item is focused!');
+      e.preventDefault();
     }
-
-    console.log('Active element: ', activeElement);
-    console.log('First element: ', firstElement);
-    console.log('Last element: ', lastElement);
-    console.log('Elements: ', elements);
   }
 
   function bindFilterEvents() {
-    if (!DOM.filter) return null;
-
     DOM.filter.forEach(function(item) {
       item.addEventListener(item.type === 'range' ? 'input' : 'change', applyFilters);
     });
   }
 
   function bindTriggerEventsMobile() {
-    if (!DOM.mobileTrigger) return null;
-
     DOM.mobileTrigger.addEventListener('click', toggleFiltersMobile);
   }
 
@@ -154,6 +153,4 @@ function filters() {
   }
 
   return DOM.filters ? init() : null;
-}
-
-filters();
+})();
