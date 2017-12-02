@@ -10,6 +10,7 @@ style.css.map
 *.exe
 *.o
 *.so
+dist
 
 
 # Packages #
